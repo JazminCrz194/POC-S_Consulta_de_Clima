@@ -1,0 +1,536 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+}
+
+/* Los títulos usan siempre el color del tema de la app.
+   Evita que index.css (plantilla de Vite) les ponga un color claro
+   cuando el sistema operativo está en modo oscuro. */
+.app h1,
+.app h2,
+.app h3 {
+  color: var(--text);
+}
+
+/* =========================================================
+   TEMA CLARO (por defecto)
+   ========================================================= */
+.app {
+  --background: #f3f6fa;
+  --surface: #ffffff;
+  --text: #17243a;
+  --secondary: #46546a;
+  --border: #cbd3df;
+  --accent: #345b8c;
+  --accent-contrast: #ffffff;
+  --btn-from: #4a76ad;
+  --btn-to: #2d507f;
+  --btn-border: #264670;
+  --btn-shadow: rgba(45, 80, 127, 0.35);
+  --ring: rgba(52, 91, 140, 0.18);
+  --hover: rgba(52, 91, 140, 0.1);
+  --shadow: 0 10px 30px rgba(23, 36, 58, 0.08);
+
+  /* Colores de la tarjeta principal según el clima */
+  --card-from: #e8eef7;
+  --card-to: #ffffff;
+
+  min-height: 100vh;
+  padding: 35px 9%;
+  background: var(--background);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s, color 0.3s;
+}
+
+.app.light .weather-clear  { --card-from: #fff0cf; --card-to: #ffffff; }
+.app.light .weather-clouds { --card-from: #e1e8f1; --card-to: #ffffff; }
+.app.light .weather-rain   { --card-from: #d5e2f3; --card-to: #f4f8fd; }
+.app.light .weather-snow   { --card-from: #e6f1fb; --card-to: #ffffff; }
+.app.light .weather-mist   { --card-from: #e9ebee; --card-to: #ffffff; }
+
+/* =========================================================
+   TEMA OSCURO
+   ========================================================= */
+.app.dark {
+  --background: #0e1218;
+  --surface: #1b222d;
+  --text: #edf0f5;
+  --secondary: #b0bac8;
+  --border: #3a4656;
+  --accent: #9ab5d8;
+  --accent-contrast: #0e1218;
+  --btn-from: #b9cde8;
+  --btn-to: #8eaad2;
+  --btn-border: #a9c0e0;
+  --btn-shadow: rgba(154, 181, 216, 0.28);
+  --ring: rgba(154, 181, 216, 0.25);
+  --hover: rgba(154, 181, 216, 0.14);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  --card-from: #1c2634;
+  --card-to: #141a23;
+}
+
+.app.dark .weather-clear  { --card-from: #3a2f17; --card-to: #181a1f; }
+.app.dark .weather-clouds { --card-from: #232d3b; --card-to: #151a22; }
+.app.dark .weather-rain   { --card-from: #1a2a42; --card-to: #131923; }
+.app.dark .weather-snow   { --card-from: #233445; --card-to: #151b24; }
+.app.dark .weather-mist   { --card-from: #2a2e35; --card-to: #16191e; }
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-title img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 27px;
+  letter-spacing: -1px;
+}
+
+.brand h1 span {
+  color: var(--accent);
+}
+
+.brand p {
+  color: var(--secondary);
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.theme-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 21px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   CONTENIDO
+   ========================================================= */
+.main-content {
+  width: 100%;
+  max-width: 720px;
+  margin: auto;
+  padding: 50px 0;
+}
+
+/* Buscador */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 8px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--ring), var(--shadow);
+}
+
+.button-icon,
+.location-button svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.button-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.search input::placeholder {
+  color: var(--secondary);
+  opacity: 1;
+}
+
+.location-button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--secondary);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.location-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.location-button:hover:not(:disabled) {
+  background: var(--hover);
+  color: var(--accent);
+}
+
+.search button[type="submit"] {
+  all: unset; /* ignora cualquier estilo global de botones (index.css) */
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 118px;
+  height: 46px;
+  padding: 0 22px;
+  border: 1px solid var(--btn-border);
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--btn-from), var(--btn-to));
+  color: var(--accent-contrast);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 14px var(--btn-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+}
+
+.search button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow: 0 9px 18px var(--btn-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.search button[type="submit"]:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px var(--btn-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.search button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+
+.search button:focus-visible,
+.unit-toggle button:focus-visible,
+.theme-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Mensaje de error */
+.error-message {
+  color: #b42332;
+  text-align: center;
+  font-size: 13px;
+  margin-top: -22px;
+  margin-bottom: 25px;
+}
+
+.app.dark .error-message {
+  color: #ff9999;
+}
+
+/* =========================================================
+   CLIMA ACTUAL
+   ========================================================= */
+.weather {
+  text-align: center;
+  padding: 32px 28px 28px;
+  background: linear-gradient(160deg, var(--card-from), var(--card-to));
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  transition: background 0.3s;
+}
+
+.weather-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  text-align: left;
+}
+
+.location-label {
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+.weather h2 {
+  font-size: 27px;
+  font-weight: 500;
+  margin-top: 6px;
+}
+
+.updated {
+  color: var(--secondary);
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* Selector de unidades */
+.unit-toggle {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.unit-toggle button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.unit-toggle button.active {
+  background: var(--text);
+  color: var(--background);
+  border-color: var(--text);
+}
+
+/* Temperatura */
+.temperature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin: 35px 0 0;
+}
+
+.temperature span {
+  font-size: 62px;
+  line-height: 1;
+}
+
+.temperature strong {
+  font-size: 84px;
+  font-weight: 300;
+  letter-spacing: -4px;
+  line-height: 1.1;
+}
+
+.description {
+  margin-top: 14px;
+  color: var(--text);
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+.range {
+  margin-top: 8px;
+  color: var(--secondary);
+  font-size: 14px;
+}
+
+/* Detalles del clima */
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px 15px;
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 1px solid var(--border);
+}
+
+.details div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.details span {
+  color: var(--secondary);
+  font-size: 12px;
+}
+
+.details strong {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+/* =========================================================
+   PRONÓSTICO
+   ========================================================= */
+.forecast {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.forecast h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.forecast-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.forecast-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  text-align: center;
+}
+
+.forecast-day {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.forecast-card strong {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.forecast-temp {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.forecast-temp em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--secondary);
+}
+
+.forecast-card small {
+  color: var(--secondary);
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+/* =========================================================
+   PIE DE PÁGINA
+   ========================================================= */
+.footer {
+  text-align: center;
+  color: var(--secondary);
+  font-size: 12px;
+  padding: 20px 0;
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width: 600px) {
+  .app {
+    padding: 25px 18px;
+  }
+
+  .main-content {
+    padding: 35px 0;
+  }
+
+  .search {
+    margin-bottom: 30px;
+  }
+
+  .weather {
+    padding: 24px 18px 22px;
+  }
+
+  .weather-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .temperature span {
+    font-size: 48px;
+  }
+
+  .temperature strong {
+    font-size: 66px;
+  }
+
+  .details {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 10px;
+  }
+
+  .forecast-list {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}
