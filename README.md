@@ -105,4 +105,4 @@ La aplicación utiliza `LocalStorage` para conservar las preferencias del usuari
 
 Al abrir la aplicación, las preferencias se restauran y se consulta automáticamente el clima de la última ciudad guardada.
 
-## Cómo
+
