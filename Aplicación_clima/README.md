@@ -104,5 +104,3 @@ La aplicación utiliza `LocalStorage` para conservar las preferencias del usuari
 | `climora-unit` | Unidad de temperatura. | `C` / `F`. |
 
 Al abrir la aplicación, las preferencias se restauran y se consulta automáticamente el clima de la última ciudad guardada.
-
-## Cómo
